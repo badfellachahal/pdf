@@ -1,0 +1,46 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ document.title }} | PDF Library{% endblock %}
+{% block content %}
+<section class="container detail-header">
+    <div>
+        <a href="/" class="back-link">← Back to library</a>
+        <span class="tag">{{ document.category.name }}</span>
+        <h1>{{ document.title }}</h1>
+        <p>Uploaded {{ document.uploaded_at|date:'M d, Y' }}</p>
+    </div>
+    <div class="detail-actions">
+        <a href="{{ document.pdf_file.url }}" target="_blank" class="btn btn-primary">Open PDF</a>
+        <a href="{{ document.pdf_file.url }}" download class="btn">Download</a>
+        <button type="button" class="btn btn-secondary" onclick="copyShareLink('{{ request.build_absolute_uri }}')">Share</button>
+    </div>
+</section>
+
+<section class="container preview-layout">
+    <div class="preview-panel">
+        <iframe src="{{ document.pdf_file.url }}" title="{{ document.title }} preview"></iframe>
+    </div>
+
+    <aside class="sidebar-card">
+        <h2>About this PDF</h2>
+        <dl>
+            <div>
+                <dt>Category</dt>
+                <dd>{{ document.category.name }}</dd>
+            </div>
+            <div>
+                <dt>Filename</dt>
+                <dd>{{ document.pdf_file.name }}</dd>
+            </div>
+        </dl>
+
+        <h3>Related PDFs</h3>
+        <ul class="related-list">
+            {% for related in related_documents %}
+                <li><a href="{% url 'pdf_detail' related.slug %}">{{ related.title }}</a></li>
+            {% empty %}
+                <li>No related PDFs yet.</li>
+            {% endfor %}
+        </ul>
+    </aside>
+</section>
+{% endblock %}
