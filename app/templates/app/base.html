@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PDF Library{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="/static/app/styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container nav-bar">
+            <a href="/" class="brand">PDF Library</a>
+            <nav>
+                <a href="/">Browse PDFs</a>
+                <a href="/admin/">Admin Upload</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Upload once, share everywhere.</p>
+        </div>
+    </footer>
+
+    <script>
+        async function copyShareLink(url) {
+            try {
+                await navigator.clipboard.writeText(url);
+                alert('Share link copied!');
+            } catch (error) {
+                prompt('Copy this link:', url);
+            }
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
